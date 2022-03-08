@@ -8,6 +8,11 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
+#define DEFAULT 0
+#define LOWER 1
+#define RAISE 2
+#define FUNCL 3
+
 
 / {
         keymap {
@@ -15,42 +20,56 @@
 
                 default_layer {
 // -----------------------------------------------------------------------------------------
-// |  ESC |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
-// | TAB |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | CTRL  |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+// | ESC |  Q  |  W  |  E  |  R  |  T  |~X~|  Y  |  U   |  I  |  O  |  P  | BKSP |
+// | TAB |  A  |  S  |  D  |  F  |  G  |~X~|  H  |  J   |  K  |  L  |  ;  |  '   |
+// | SHFT|  Z  |  X  |  C  |  V  |  B  |~X~|  N  |  M   |  ,  |  .  |  /  | CTRL |
+//                   | GUI | LWR | SPC |~X~| ENT | RSE  | ALT |
                         bindings = <
    &kp ESC   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
    &kp TAB &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
    &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp LCTRL
-                  &kp LGUI &mo 1 &kp SPACE   &kp RET &mo 2 &kp RALT
+                  &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE &kp RALT
                         >;
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
-// |  ~ |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-// |      | BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP  | RGT |     |      |
-// | SHFT | OT  |     |     |     |     |   |     | PGD |  PGU |     |     |  BTC |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
+// |  ~  |  1  |  2  |  3  |  4  |  5  |~X~|  6  |  7  |  8  |  9  |  0  | DEL |
+// |     |     |     |     |     |     |~X~| LFT | DWN | UP  | RGT |     | INS |
+// |SHFT |     |     |     |     |     |~X~| END | PGD | PGU | HOME|     |     |
+//                   | GUI |     | SPC |~X~| ENT |     | ALT |
                         bindings = <
-   &kp TILDE    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &kp LSHFT  &out OUT_TOG      &trans       &trans       &trans       &trans         &trans &kp PG_DN &kp PG_UP &trans    &trans &bt BT_CLR
-                          	        &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp RALT
+   &kp TILDE    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp DEL
+   &trans &trans &trans &trans &trans &trans   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &kp INS
+   &kp LSHFT  &trans      &trans       &trans       &trans       &trans         &kp END &kp PG_DN &kp PG_UP &kp HOME    &trans &trans 
+                          	        &kp LGUI     &trans       &kp SPACE      &kp RET  &mo FUNCL   &kp RALT
                         >;
                 };
 
                 raise_layer {
 // -----------------------------------------------------------------------------------------
-// |  ` |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | CTRL | VD  | VU  | MUTE|     |     |   |     |  -  |  =  |  [  |  ]  | "|" |
-// | SHFT | PB  | PP  | PN    |     |     |   |     |  _  |  +  |  {  |  }  | \   |
-//                    | GUI |     | SPC |   | ENT |     | ALT |
+// |  `  |  !  |  @  |  #  |  $  |  %  |~X~|  ^  |  &  |  *  |  (  |  )  |BKSP |
+// |CTRL | VD  | VU  |MUTE |     |     |~X~|     |  -  |  =  |  [  |  ]  | "|" |
+// |SHFT | PB  | PP  | PN  |     |     |~X~|     |  _  |  +  |  {  |  }  |  \  |
+//                   | GUI |     | SPC |~X~| ENT |     | ALT |
                         bindings = <
-   &kp GRAVE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
+   &kp GRAVE &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT      &kp CARET &kp AMPS  &kp KP_MULTIPLY &kp LPAR &kp RPAR &kp BSPC
    &kp LCTRL &kp K_VOL_DN2 &kp K_VOL_UP2 &kp K_MUTE2 &trans   &trans      &trans &kp MINUS &kp EQUAL        &kp LBKT &kp RBKT &kp PIPE
-   &kp LSHFT &kp K_PREV &kp K_PP &kp K_NEXT   &trans &trans      &trans &kp UNDER &kp PLUS        &kp LBRC &kp RBRC &kp BSLH
-                    	     &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp RALT
+   &kp LSHFT &kp K_PREV &kp K_PP &kp K_NEXT   &trans &trans   &trans &kp UNDER &kp PLUS        &kp LBRC &kp RBRC &kp BSLH
+                    	     &kp LGUI &mo FUNCL   &kp SPACE   &kp RET   &trans    &kp RALT
+                        >;
+                };
+        };
+                func_layer {
+// -----------------------------------------------------------------------------------------
+// | F1  | F2  | F3  | F4  | F5  | F6  |~X~| F7  |  F8 | F9  | F10 | F11 | F12 |
+// |     | BT1 | BT2 | BT3 | BT4 | BT5 |~X~|     |     |     |     |     |     |
+// |CAPS |     |     |     |     | OT  |~X~|     |     |     |     |     | BTC |
+//                   |LCTL |     |LALT |~X~|RALT |     |RCTL |
+                        bindings = <
+   &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6     &kp F7 &kp F8  &kp F9 &kp F10 &kp 11 &kp F12
+   &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &trans &trans &trans &trans &trans &trans
+   &kp CAPS &trans &trans &trans   &trans &out OUT_TOG      &trans &trans &trans        &trans &trans &bt BT_CLR
+                    	     &kp LCTRL &trans   &kp LALT   &kp RALT   &trans    &kp RCTRL
                         >;
                 };
         };
