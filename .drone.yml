@@ -1,0 +1,21 @@
+kind: pipeline
+name: default
+
+clone:
+    skip_verify: true
+
+steps:
+  - name: build
+    pull: if-not-exists
+    image: zmkfirmware/zmk-build-arm:3.0
+    settings:
+        validate: true
+    commands:
+      - uname -a
+    when:
+        branch: master
+        event:
+            - push
+trigger:
+    branch:
+        - master
